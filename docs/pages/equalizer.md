@@ -1,21 +1,12 @@
 ---
 title: Equalizer
 description: Equalizer makes it dead simple to give multiple items equal height.
-video: KbruAemirVQ
 js: js/foundation.equalizer.js
 ---
 
 ## Basics
 
 To set up an Equalizer group, you need a container, which gets the attribute `data-equalizer`, and then a series of child elements, which get the attribute `data-equalizer-watch`. The child elements will all be resized to have the same height.
-
-<p>
-  <a class="" data-open-video="0:47"><img src="{{root}}assets/img/icons/watch-video-icon.svg" class="video-icon" height="30" width="30" alt=""> Watch this part in video</a>
-</p>
-
-<div class="docs-codepen-container">
-  <a class="codepen-logo-link" href="https://codepen.io/brettsmason/pen/pPKqrq?editors=1000" target="_blank"><img src="{{root}}assets/img/logos/edit-in-browser.svg" class="" height="" width="" alt="edit on codepen button"></a>
-</div>
 
 ```html_example
 <div class="row" data-equalizer data-equalize-on="medium" id="test-eq">
@@ -37,22 +28,16 @@ To set up an Equalizer group, you need a container, which gets the attribute `da
 </div>
 ```
 
----
-
 ## Nesting
 
 To use one Equalizer inside another, each container needs a unique ID, assigned with the `data-equalizer` attribute. Each `data-equalizer-watch` element should then have a value that matches its parent.
 
 In the below example, the first set of Equalizer elements have the value `foo`, while the inside elements have the value `bar`. In the live example, we've also set the `equalizeOn` option to 'medium' for the parent elements, and the child Equalizer contained in the first div equalizes on stack, and maintains equal height.
 
-<div class="docs-codepen-container">
-  <a class="codepen-logo-link" href="https://codepen.io/brettsmason/pen/zwayPO?editors=1000" target="_blank"><img src="{{root}}assets/img/logos/edit-in-browser.svg" class="" height="" width="" alt="edit on codepen button"></a>
-</div>
-
 ```html
 <div class="row" data-equalizer="foo">
   <div class="medium-4 columns" data-equalizer-watch="foo">
-    <div class="callout" data-equalizer-watch="foo" data-equalizer="bar">
+    <div class="callout" data-equalizer="bar">
       <h3>Parent panel</h3>
       <div class="callout" data-equalizer-watch="bar"></div>
       <div class="callout" data-equalizer-watch="bar"></div>
@@ -70,7 +55,7 @@ In the below example, the first set of Equalizer elements have the value `foo`, 
 
 <div class="row"  data-equalize-on="medium" data-equalizer="foo">
   <div class="medium-4 columns" >
-    <div class="callout" data-equalizer-watch="foo" data-equalizer="bar" data-equalize-on-stack="true">
+    <div class="callout" data-equalizer-watch="foo" data-equalizer="bar">
       <h3>Parent panel</h3>
       <div class="callout" data-equalizer-watch="bar">
         <p>The three callouts in this panel will equalize, even when stacked.</p>
@@ -95,37 +80,56 @@ In the below example, the first set of Equalizer elements have the value `foo`, 
   </div>
 </div>
 
----
+## Responsive Equalizer
+### Equalize row by row
 
-## Equalize By Row
+Equalize elements on a per-row basis. Please note, that because this involves quite a bit of looping through elements, you may notice a performance decrease by using this feature and resizing your screen rapidly.
 
-If you have a gallery of items that wrap multiple times, Equalizer can be configured to match each row's items in height. Works great with the block grid!
-
-<a class="" data-open-video="4:24"><img src="{{root}}assets/img/icons/watch-video-icon.svg" class="video-icon" height="30" width="30" alt=""> Watch this part in video</a>
+<div class="callout success">
+  <strong>Works great with Block-Grid</strong>
+</div>
 
 <div class="callout primary">
-  <p><strong>Under the Hood:</strong></p>
-  <p>Equalizer splits the `data-equalizer-watch` elements into groups by checking their vertical offsets, and grouping ones with the same offset into a "row".</p>
-  <p>Be aware on what you set `data-equalizer-watch`, if the top position is different, Equalizer will interpret that as a new "row" and equalize accordingly.</p>
+  <strong>Under the Hood</strong><br>
+  <p>Equalizer splits the `data-equalizer-watch` elements into groups by checking the top position and then sets the max height to each element in a row</p>
+  <p>Be aware on what you set the `data-equalizer-watch`, if the top position is different, equalizer will interpret that as a new 'row' and equalize accordingly.</p>
 </div>
 
-<div class="docs-codepen-container">
-  <a class="codepen-logo-link" href="https://codepen.io/brettsmason/pen/pPKqrq?editors=1000" target="_blank"><img src="{{root}}assets/img/logos/edit-in-browser.svg" class="" height="" width="" alt="edit on codepen button"></a>
-</div>
-
-```html
-<div class="row small-up-1 medium-up-2 large-up-4" data-equalizer data-equalize-by-row="true">
-  <div class="column" data-equalizer-watch></div>
-  <div class="column" data-equalizer-watch></div>
-  <div class="column" data-equalizer-watch></div>
-  <!-- ... -->
+```html_example
+<div class="row" data-equalizer data-equalize-by-row="true">
+  <div class="small-12 medium-6 large-4 columns">
+    <div class="callout clearfix">
+      <div data-equalizer-watch>
+        <h5>Login</h5>
+        <p>Login Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt magni quia unde laboriosam tempore et quibusdam. Quibusdam maxime sit atque!</p>
+      </div>
+      <a href="#" class="button success expanded">Login</a> </div>
+  </div>
+  <div class="small-12 medium-6 large-4 columns">
+    <div class="callout clearfix">
+      <div data-equalizer-watch>
+        <h5>Create Account</h5>
+        <p>You can create an account here Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, assumenda, molestiae. Laboriosam et exercitationem, veniam odit, dicta illum corporis, placeat voluptates fuga, expedita distinctio quae magnam temporibus porro quas eius.</p>
+      </div>
+      <a href="#" class="button expanded">Create account</a> </div>
+  </div>
+  <div class="small-12 medium-12 large-4 columns">
+    <div class="callout clearfix">
+      <div data-equalizer-watch>
+        <h5>Social Login</h5>
+        <p>Social Networks Login Text</p>
+      </div>
+      <a href="#" class="button hollow expanded">Login</a> </div>
+  </div>
 </div>
 ```
-
+<br>
+<hr>
+<p class="lead">Equalized Block Grid</p>
 <div class="row small-up-1 medium-up-2 large-up-4" data-equalizer data-equalize-by-row="true">
   <div class="column">
     <div class="callout" data-equalizer-watch>
-      <img src="https://placehold.it/180x200" class="thumbnail" alt="">
+      <img src="//placehold.it/180x200" class="thumbnail" alt="">
       <p>Lorem ipsum dolor sit amet<p>
     </div>
   </div>
@@ -141,7 +145,7 @@ If you have a gallery of items that wrap multiple times, Equalizer can be config
   </div>
   <div class="column">
     <div class="callout" data-equalizer-watch>
-      <img src="https://placehold.it/180x180" class="thumbnail" alt="">
+      <img src="//placehold.it/180x180" class="thumbnail" alt="">
     </div>
   </div>
   <div class="column">
@@ -156,12 +160,12 @@ If you have a gallery of items that wrap multiple times, Equalizer can be config
   </div>
   <div class="column">
     <div class="callout" data-equalizer-watch>
-      <img src="https://placehold.it/180x400" class="thumbnail" alt="">
+      <img src="//placehold.it/180x400" class="thumbnail" alt="">
     </div>
   </div>
   <div class="column">
     <div class="callout" data-equalizer-watch>
-      <img src="https://placehold.it/180x200" class="thumbnail" alt="">
+      <img src="//placehold.it/180x200" class="thumbnail" alt="">
       <p>Lorem ipsum dolor sit amet<p>
     </div>
   </div>
@@ -177,22 +181,7 @@ If you have a gallery of items that wrap multiple times, Equalizer can be config
   </div>
   <div class="column">
     <div class="callout" data-equalizer-watch>
-      <img src="https://placehold.it/180x180" class="thumbnail" alt="">
-    </div>
-  </div>
-  <div class="column">
-    <div class="callout" data-equalizer-watch>
-      <p>Lorem ipsum dolor sit amet<p>
-    </div>
-  </div>
-  <div class="column">
-    <div class="callout" data-equalizer-watch>
-      <p>Lorem ipsum dolor sit amet<p>
-    </div>
-  </div>
-  <div class="column">
-    <div class="callout" data-equalizer-watch>
-      <p>Lorem ipsum dolor sit amet<p>
+      <img src="//placehold.it/180x180" class="thumbnail" alt="">
     </div>
   </div>
   <div class="column">
@@ -212,7 +201,22 @@ If you have a gallery of items that wrap multiple times, Equalizer can be config
   </div>
   <div class="column">
     <div class="callout" data-equalizer-watch>
-      <img src="https://placehold.it/180x400" class="thumbnail" alt="">
+      <p>Lorem ipsum dolor sit amet<p>
+    </div>
+  </div>
+  <div class="column">
+    <div class="callout" data-equalizer-watch>
+      <p>Lorem ipsum dolor sit amet<p>
+    </div>
+  </div>
+  <div class="column">
+    <div class="callout" data-equalizer-watch>
+      <p>Lorem ipsum dolor sit amet<p>
+    </div>
+  </div>
+  <div class="column">
+    <div class="callout" data-equalizer-watch>
+      <img src="//placehold.it/180x400" class="thumbnail" alt="">
     </div>
   </div>
 </div>

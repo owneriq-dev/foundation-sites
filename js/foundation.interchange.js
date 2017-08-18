@@ -1,35 +1,30 @@
 'use strict';
 
-import $ from 'jquery';
-import { MediaQuery } from './foundation.util.mediaQuery';
-import { Plugin } from './foundation.plugin';
-import { GetYoDigits } from './foundation.util.core';
-
-
 /**
  * Interchange module.
  * @module foundation.interchange
  * @requires foundation.util.mediaQuery
+ * @requires foundation.util.timerAndImageLoader
  */
 
-class Interchange extends Plugin {
+export default class Interchange {
   /**
    * Creates a new instance of Interchange.
    * @class
-   * @name Interchange
    * @fires Interchange#init
    * @param {Object} element - jQuery object to add the trigger to.
    * @param {Object} options - Overrides to the default plugin settings.
    */
-  _setup(element, options) {
+  constructor(element, options) {
     this.$element = element;
     this.options = $.extend({}, Interchange.defaults, options);
     this.rules = [];
     this.currentPath = '';
-    this.className = 'Interchange'; // ie9 back compat
 
     this._init();
     this._events();
+
+    Foundation.registerPlugin(this, 'Interchange');
   }
 
   /**
@@ -38,14 +33,6 @@ class Interchange extends Plugin {
    * @private
    */
   _init() {
-    MediaQuery._init();
-
-    var id = this.$element[0].id || GetYoDigits(6, 'interchange');
-    this.$element.attr({
-      'data-resize': id,
-      'id': id
-    });
-
     this._addBreakpoints();
     this._generateRules();
     this._reflow();
@@ -57,7 +44,7 @@ class Interchange extends Plugin {
    * @private
    */
   _events() {
-    this.$element.off('resizeme.zf.trigger').on('resizeme.zf.trigger', () => this._reflow());
+    $(window).on('resize.zf.interchange', Foundation.util.throttle(this._reflow.bind(this), 50));
   }
 
   /**
@@ -70,11 +57,10 @@ class Interchange extends Plugin {
 
     // Iterate through each rule, but only save the last match
     for (var i in this.rules) {
-      if(this.rules.hasOwnProperty(i)) {
-        var rule = this.rules[i];
-        if (window.matchMedia(rule.query).matches) {
-          match = rule;
-        }
+      var rule = this.rules[i];
+
+      if (window.matchMedia(rule.query).matches) {
+        match = rule;
       }
     }
 
@@ -89,11 +75,9 @@ class Interchange extends Plugin {
    * @private
    */
   _addBreakpoints() {
-    for (var i in MediaQuery.queries) {
-      if (MediaQuery.queries.hasOwnProperty(i)) {
-        var query = MediaQuery.queries[i];
-        Interchange.SPECIAL_QUERIES[query.name] = query.value;
-      }
+    for (var i in Foundation.MediaQuery.queries) {
+      var query = Foundation.MediaQuery.queries[i];
+      Interchange.SPECIAL_QUERIES[query.name] = query.value;
     }
   }
 
@@ -112,26 +96,22 @@ class Interchange extends Plugin {
       rules = this.options.rules;
     }
     else {
-      rules = this.$element.data('interchange');
+      rules = this.$element.data('interchange').match(/\[.*?\]/g);
     }
 
-    rules =  typeof rules === 'string' ? rules.match(/\[.*?\]/g) : rules;
-
     for (var i in rules) {
-      if(rules.hasOwnProperty(i)) {
-        var rule = rules[i].slice(1, -1).split(', ');
-        var path = rule.slice(0, -1).join('');
-        var query = rule[rule.length - 1];
+      var rule = rules[i].slice(1, -1).split(', ');
+      var path = rule.slice(0, -1).join('');
+      var query = rule[rule.length - 1];
 
-        if (Interchange.SPECIAL_QUERIES[query]) {
-          query = Interchange.SPECIAL_QUERIES[query];
-        }
-
-        rulesList.push({
-          path: path,
-          query: query
-        });
+      if (Interchange.SPECIAL_QUERIES[query]) {
+        query = Interchange.SPECIAL_QUERIES[query];
       }
+
+      rulesList.push({
+        path: path,
+        query: query
+      });
     }
 
     this.rules = rulesList;
@@ -151,14 +131,13 @@ class Interchange extends Plugin {
 
     // Replacing images
     if (this.$element[0].nodeName === 'IMG') {
-      this.$element.attr('src', path).on('load', function() {
+      this.$element.attr('src', path).load(function() {
         _this.currentPath = path;
       })
       .trigger(trigger);
     }
     // Replacing background images
-    else if (path.match(/\.(gif|jpg|jpeg|png|svg|tiff)([?#].*)?/i)) {
-      path = path.replace(/\(/g, '%28').replace(/\)/g, '%29');
+    else if (path.match(/\.(gif|jpg|jpeg|tiff|png)([?#].*)?/i)) {
       this.$element.css({ 'background-image': 'url('+path+')' })
           .trigger(trigger);
     }
@@ -183,8 +162,8 @@ class Interchange extends Plugin {
    * Destroys an instance of interchange.
    * @function
    */
-  _destroy() {
-    this.$element.off('resizeme.zf.trigger')
+  destroy() {
+    //TODO this.
   }
 }
 
@@ -195,8 +174,6 @@ Interchange.defaults = {
   /**
    * Rules to be applied to Interchange elements. Set with the `data-interchange` array notation.
    * @option
-   * @type {?array}
-   * @default null
    */
   rules: null
 };
@@ -207,4 +184,7 @@ Interchange.SPECIAL_QUERIES = {
   'retina': 'only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx)'
 };
 
-export {Interchange};
+// Window exports
+if (window.Foundation) {
+  window.Foundation.plugin(Interchange, 'Interchange');
+}

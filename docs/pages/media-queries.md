@@ -1,17 +1,11 @@
 ---
 title: Media Queries
 description: CSS media queries allow us to adjust the display and orientation of content at different screen sizes.
-video: gqqi2cqlST8
 sass: scss/util/_breakpoint.scss
 js: js/foundation.util.mediaQuery.js
 tags:
   - breakpoints
 ---
-
-<div class="callout training-callout">
-  <p>Build better websites and apps, code cleaner, and become a better front-end developer with Foundation training. We're running two online webinar training sessions this month where we break down how to get the most out of Foundnation and leap ahead skillwise.</p>
-  <a href="http://zurb.com/university/courses" target="_blank"> Get registered →</a>
-</div>
 
 ## Default Media Queries
 
@@ -53,7 +47,7 @@ If you're using the CSS version of Foundation, use these media queries to imitat
 
 ## Upgrading from Foundation 5
 
-In Foundation 5, breakpoints were accessed using a series of Sass variables named `$small-up`, `$small-only`, `$medium-only`, and so on. In Foundation 6, this method of writing media queries has been replaced with a dedicated [breakpoint mixin](#the-breakpoint-mixin), described below. **The legacy variables will be removed in Foundation 6.3.**
+In Foundation 5, breakpoints were accessed using a series of Sass variables named `$small-up`, `$small-only`, `$medium-only`, and so on. In Foundation 6, this method of writing media queries has been replaced with a dedicated [breakpoint mixin](#the-breakpoint-mixin), described below. **The legacy variables will be removed in Foundation 6.**
 
 To upgrade your existing media queries, replace rulesets like this:
 
@@ -199,15 +193,6 @@ To see if the screen is currently a certain breakpoint or larger, use `MediaQuer
 if (Foundation.MediaQuery.atLeast('medium')) {
   // True if medium or large
   // False if small
-}
-```
-
-To see if the screen is currently a certain breakpoint, use `MediaQuery.is`.
-
-```js
-if (Foundation.MediaQuery.is('small only')) {
-  // True if small
-  // False if medium or large
 }
 ```
 

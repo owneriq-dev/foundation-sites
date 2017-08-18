@@ -36,14 +36,14 @@ $titlebar-icon-spacing: 0.25rem !default;
 
 @mixin foundation-title-bar {
   .title-bar {
-    padding: $titlebar-padding;
     background: $titlebar-background;
     color: $titlebar-color;
+    padding: $titlebar-padding;
 
     @if $global-flexbox {
       display: flex;
-      justify-content: flex-start;
       align-items: center;
+      justify-content: space-between;
     }
     @else {
       @include clearfix;
@@ -51,14 +51,15 @@ $titlebar-icon-spacing: 0.25rem !default;
 
     .menu-icon {
       margin-#{$global-left}: $titlebar-icon-spacing;
-      margin-#{$global-right}: $titlebar-icon-spacing;
+      margin-#{$global-right}: $titlebar-padding;
     }
   }
 
   @if $global-flexbox {
+    // scss-lint:disable ZeroUnit
     .title-bar-left,
     .title-bar-right {
-      flex: 1 1 0px; // sass-lint:disable-line zero-unit
+      flex: 1 1 0px;
     }
 
     .title-bar-right {
@@ -77,8 +78,18 @@ $titlebar-icon-spacing: 0.25rem !default;
   }
 
   .title-bar-title {
-    display: inline-block;
-    vertical-align: middle;
     font-weight: $titlebar-text-font-weight;
+    vertical-align: middle;
+    display: inline-block;
+  }
+
+  // Remove this in 6.3
+  @if not $-zf-menu-icon-imported {
+    @warn 'In Foundation 6.2, a new component mixin was added called "foundation-menu-icon". Add "@import foundation-menu-icon" to the main Sass file of your project to remove this warning.';
+    @include foundation-menu-icon;
+  }
+
+  .menu-icon.dark {
+    @include hamburger;
   }
 }

@@ -1,7 +1,6 @@
 ---
 title: JavaScript
 description: Our JavaScript is easy to set up and only requires jQuery to get going.
-video: 'Mf5ZZfKTe-I'
 ---
 
 ## Installing
@@ -20,23 +19,9 @@ Once you have the files, add links to jQuery and Foundation as `<script>` tags a
   <p>Make sure Foundation loads <em>after</em> jQuery.</p>
 </div>
 
-### Babel Required
-
-Our JavaScript uses some features of ECMAScript 2015. **If you use Foundation with a build system, you'll need to compile our code to ES5.** We use [Babel](https://babeljs.io/) in our templates to do this. Babel has [plugins](https://babeljs.io/docs/setup/) for every build system imaginable, so integrating it into an existing setup is easy.
-
-When configuring Babel to work with Foundation, you only need to include the `es2015` preset. At the root of your project, add a file called `.babelrc` with these contents to load that configuration:
-
-```json
-{
-  "presets": ["es2015"]
-}
-```
-
 ### File Structure
 
-All of Foundation's plugins ship both as importable ES2016 modules, and as individual precompiled "drop in" files, named `foundation.tabs.js`, `foundation.accordion.js`, and so on. These files are also combined into one big file called `foundation.js`, which allows you to get every plugin at once.  The precompiled files live in the `dist` folder, while the importable modules live in the `src` folder.
-
-If you're not familiar with module bundling, you'll probably want to reference the precompiled files from `dist`. 
+All of Foundation's plugins ship as individual files, named `foundation.tabs.js`, `foundation.accordion.js`, and so on. These files are also combined into one big file called `foundation.js`, which allows you to get every plugin at once.
 
 If you're only using certain plugins, know that they all require `foundation.core.js` and `foundation.util.mediaQuery.js` to be loaded *first*. Some plugins also require specific utility libraries that ship with Foundation&mdash;refer to a plugin's documentation to find out which plugins require what, and see the [JavaScript Utilities](javascript-utilities.html) page for more information.
 

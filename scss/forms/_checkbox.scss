@@ -17,20 +17,15 @@
   [type='checkbox'] + label,
   [type='radio'] + label {
     display: inline-block;
-    vertical-align: baseline;
-
     margin-#{$global-left}: $form-spacing * 0.5;
     margin-#{$global-right}: $form-spacing;
     margin-bottom: 0;
-
-    &[for] {
-      cursor: pointer;
-    }
+    vertical-align: baseline;
   }
 
   // Styles for inputs inside labels
   label > [type='checkbox'],
-  label > [type='radio'] {
+  label > [type='label'] {
     margin-#{$global-right}: $form-spacing * 0.5;
   }
 

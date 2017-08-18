@@ -4,9 +4,9 @@
 @import '../../scss/util/color';
 
 @include test-module('Color') {
-
+  
   @include test('Foreground (Black) [function]') {
-    $test: color-pick-contrast($white);
+    $test: foreground($white);
     $expect: $black;
 
     @include assert-equal($test, $expect,
@@ -14,7 +14,7 @@
   }
 
   @include test('Foreground (White) [function]') {
-    $test: color-pick-contrast($black);
+    $test: foreground($black);
     $expect: $white;
 
     @include assert-equal($test, $expect,

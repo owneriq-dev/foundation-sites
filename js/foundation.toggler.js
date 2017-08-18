@@ -1,37 +1,28 @@
 'use strict';
 
-import $ from 'jquery';
-import { Motion } from './foundation.util.motion';
-import { Plugin } from './foundation.plugin';
-import { Triggers } from './foundation.util.triggers';
-
 /**
  * Toggler module.
  * @module foundation.toggler
  * @requires foundation.util.motion
- * @requires foundation.util.triggers
  */
 
-class Toggler extends Plugin {
+export default class Toggler {
   /**
    * Creates a new instance of Toggler.
    * @class
-   * @name Toggler
    * @fires Toggler#init
    * @param {Object} element - jQuery object to add the trigger to.
    * @param {Object} options - Overrides to the default plugin settings.
    */
-  _setup(element, options) {
+  constructor(element, options) {
     this.$element = element;
     this.options = $.extend({}, Toggler.defaults, element.data(), options);
     this.className = '';
-    this.className = 'Toggler'; // ie9 back compat
-
-    // Triggers init is idempotent, just need to make sure it is initialized
-    Triggers.init($);
 
     this._init();
     this._events();
+
+    Foundation.registerPlugin(this, 'Toggler');
   }
 
   /**
@@ -102,24 +93,21 @@ class Toggler extends Plugin {
     }
 
     this._updateARIA(isOn);
-    this.$element.find('[data-mutate]').trigger('mutateme.zf.trigger');
   }
 
   _toggleAnimate() {
     var _this = this;
 
     if (this.$element.is(':hidden')) {
-      Motion.animateIn(this.$element, this.animationIn, function() {
-        _this._updateARIA(true);
+      Foundation.Motion.animateIn(this.$element, this.animationIn, function() {
         this.trigger('on.zf.toggler');
-        this.find('[data-mutate]').trigger('mutateme.zf.trigger');
+        _this._updateARIA(true);
       });
     }
     else {
-      Motion.animateOut(this.$element, this.animationOut, function() {
-        _this._updateARIA(false);
+      Foundation.Motion.animateOut(this.$element, this.animationOut, function() {
         this.trigger('off.zf.toggler');
-        this.find('[data-mutate]').trigger('mutateme.zf.trigger');
+        _this._updateARIA(false);
       });
     }
   }
@@ -132,8 +120,9 @@ class Toggler extends Plugin {
    * Destroys the instance of Toggler on the element.
    * @function
    */
-  _destroy() {
+  destroy() {
     this.$element.off('.zf.toggler');
+    Foundation.unregisterPlugin(this);
   }
 }
 
@@ -141,10 +130,20 @@ Toggler.defaults = {
   /**
    * Tells the plugin if the element should animated when toggled.
    * @option
-   * @type {boolean}
-   * @default false
+   * @example false
    */
   animate: false
 };
 
-export {Toggler};
+// Window exports
+if (window.Foundation) {
+  Foundation.plugin(Toggler, 'Toggler');
+}
+
+// Exports for AMD/Browserify
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
+  module.exports = Toggler;
+if (typeof define === 'function')
+  define(['foundation'], function() {
+    return Toggler;
+  });

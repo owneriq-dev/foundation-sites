@@ -1,8 +1,3 @@
-'use strict';
-
-import $ from 'jquery';
-import { transitionend } from './foundation.util.core';
-
 /**
  * Motion module.
  * @module foundation.motion
@@ -11,7 +6,7 @@ import { transitionend } from './foundation.util.core';
 const initClasses   = ['mui-enter', 'mui-leave'];
 const activeClasses = ['mui-enter-active', 'mui-leave-active'];
 
-const Motion = {
+export const Motion = {
   animateIn: function(element, animation, cb) {
     animate(true, element, animation, cb);
   },
@@ -21,18 +16,12 @@ const Motion = {
   }
 }
 
-function Move(duration, elem, fn){
+export function Move(duration, elem, fn){
   var anim, prog, start = null;
   // console.log('called');
 
-  if (duration === 0) {
-    fn.apply(elem);
-    elem.trigger('finished.zf.animate', [elem]).triggerHandler('finished.zf.animate', [elem]);
-    return;
-  }
-
   function move(ts){
-    if(!start) start = ts;
+    if(!start) start = window.performance.now();
     // console.log(start, ts);
     prog = ts - start;
     fn.apply(elem);
@@ -84,7 +73,7 @@ function animate(isIn, element, animation, cb) {
   });
 
   // Clean up the animation when it finishes
-  element.one(transitionend(element), finish);
+  element.one(Foundation.transitionend(element), finish);
 
   // Hides the element (for out animations), resets the element, and runs a callback
   function finish() {
@@ -100,5 +89,7 @@ function animate(isIn, element, animation, cb) {
   }
 }
 
-export {Move, Motion};
-
+if (window.Foundation) {
+  window.Foundation.Move = Move;
+  window.Foundation.Motion = Motion;
+}

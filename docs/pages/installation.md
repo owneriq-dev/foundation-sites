@@ -1,8 +1,13 @@
 ---
 title: Installation
 description: There are many ways to install Foundation, but if you're just getting started, we have a few suggestions.
-video: '6KwsGcEHVTE'
 ---
+
+## Yeti Launch
+
+Yeti Launch is our Mac app for quickly spinning up blank projects for any of the three Foundation frameworks. If you're just getting started with Foundation, we recommend downloading Yeti Launch to get going right away.
+
+<a href="http://foundation.zurb.com/develop/yeti-launch" class="large button">Download Yeti Launch</a>
 
 ### Command-Line Tool
 
@@ -10,12 +15,6 @@ Not a fan of GUIs? The Node-powered Foundation CLI can install the same template
 
 ```bash
 npm install --global foundation-cli
-```
-
-Depending on how your machine is configured, the command may fail with an `EACCESS` error. To get around this, run the command with `sudo` at the beginning:
-
-```bash
-sudo npm install --global foundation-cli
 ```
 
 <div class="callout alert">
@@ -47,6 +46,7 @@ Then open the folder in your command line, and install the needed dependencies:
 ```bash
 cd projectname
 npm install
+bower install
 ```
 
 Finally, run `npm start` to run the Sass compiler. It will re-run every time you save a Sass file.
@@ -64,6 +64,7 @@ Then open the folder in your command line, and install the needed dependencies:
 ```bash
 cd projectname
 npm install
+bower install
 ```
 
 Finally, run `npm start` to run Gulp. Your finished site will be created in a folder called `dist`, viewable at this URL:
@@ -78,11 +79,6 @@ To create compressed, production-ready assets, run `npm run build`.
 
 ## CSS Download
 
-<div class="responsive-embed widescreen mb1">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/lFrpnk0Oo_8" frameborder="0" allowfullscreen></iframe>
-  <a id="docs-mobile-video-link" class="docs-mobile-video" target="_blank" href="https://youtu.be/lFrpnk0Oo_8"></a>
-</div>
-
 If you aren't into Sass, we have a starter template with compiled CSS and JavaScript, as well as a starting `index.html` file for you to hack on. Just unzip and get coding!
 
 <a href="http://foundation.zurb.com/sites/download" class="large button">Download CSS Version</a>
@@ -90,7 +86,7 @@ If you aren't into Sass, we have a starter template with compiled CSS and JavaSc
 ---
 
 ## HTML Starter Template
-Start with this HTML template and adapt it to your needs. Be sure to include the `.no-js` class on the `html` tag of your template.  Adding this class prevents [flash of unstyled content](https://en.wikipedia.org/wiki/Flash_of_unstyled_content) for a number of foundation components.
+Start with this HTML template and adapt it to your needs.
 
 ```html
 <!doctype html>
@@ -104,10 +100,10 @@ Start with this HTML template and adapt it to your needs. Be sure to include the
   </head>
   <body>
     <h1>Hello, world!</h1>
-
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/vendor/what-input.js"></script>
-    <script src="js/vendor/foundation.min.js"></script>
+    
+    <script src="js/vendor/jquery.min.js"></script>
+    <script src="js/vendor/what-input.min.js"></script>
+    <script src="js/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>
@@ -121,14 +117,14 @@ Start with this HTML template and adapt it to your needs. Be sure to include the
 
 ## CDN Links
 
-The folks at [cdnjs](https://cdnjs.com) host the compressed Foundation CSS and JavaScript for us. Just drop one of these `<script>` tags into your HTML and you're set:
+The folks at [jsDelivr](https://www.jsdelivr.com) host the compressed Foundation CSS and JavaScript for us. Just drop one of these `<script>` tags into your HTML and you're set:
 
 ```html
 <!-- Compressed CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css" integrity="sha256-itWEYdFWzZPBG78bJOOiQIn06QCgN/F0wMDcC4nOhxY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.1.2/foundation.min.css">
 
 <!-- Compressed JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js" integrity="sha256-Nd2xznOkrE9HkrAMi4xWy/hXkQraXioBg9iYsBrcFrs=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/foundation/6.1.2/foundation.min.js"></script>
 ```
 
 ---
@@ -141,7 +137,6 @@ Foundation is available on npm, Bower, Meteor, and Composer. The package include
 - Bower: `bower install foundation-sites`
 - Meteor: `meteor add zurb:foundation-sites`
 - Composer: `php composer.phar require zurb/foundation`
-- NuGet: `Install-Package foundation-sites`
 
 ### Package Contents
 
@@ -152,7 +147,6 @@ Here's what comes in the package.
 - `dist/`: Compiled files.
   - `css/`: Compiled CSS files. Includes minified and unminified files.
   - `js/`: Concatenated JavaScript files. Includes minified and unminified files.
-    - `plugins/`: Standalone JavaScript plugins.
 
 ---
 

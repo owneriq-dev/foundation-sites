@@ -2,7 +2,9 @@
 title: Interchange
 description: Interchange uses media queries to dynamically load responsive content that is appropriate for the user's device.
 js: js/foundation.interchange.js
-video: '1Nr12_1rUpo'
+---
+
+<img data-interchange="[assets/img/interchange/small.jpg, small], [assets/img/interchange/medium.jpg, medium], [assets/img/interchange/large.jpg, large]">
 
 ---
 
@@ -10,21 +12,11 @@ video: '1Nr12_1rUpo'
 
 Bandwidth is precious on mobile networks, so it helps to serve users on smaller screens a smaller image. Using Interchange, you can serve up specific images for users depending on their screen size. CSS media queries are used to determine what size the user's device is, and which image should be served.
 
-In the below example, we have three different sizes of image: one for small screens, one for medium, and one for large. Use the below format to set up a responsive image. The image will change automatically as the browser resizes.
-
-<p>
-  <a class="" data-open-video="0:50"><img src="{{root}}assets/img/icons/watch-video-icon.svg" class="video-icon" height="30" width="30" alt=""> Watch this part in video</a>
-</p>
-
-<div class="docs-codepen-container">
-  <a class="codepen-logo-link" href="https://codepen.io/ZURBFoundation/pen/JNZQGB?editors=1000" target="_blank"><img src="{{root}}assets/img/logos/edit-in-browser.svg" class="" height="" width="" alt="edit on codepen button"></a>
-</div>
+In the above example, we have three different sizes of image: one for small screens, one for medium, and one for large. Use the below format to set up a responsive image. The image will change automatically as the browser resizes.
 
 ```html
 <img data-interchange="[assets/img/interchange/small.jpg, small], [assets/img/interchange/medium.jpg, medium], [assets/img/interchange/large.jpg, large]">
 ```
-
-<img data-interchange="[assets/img/interchange/small.jpg, small], [assets/img/interchange/medium.jpg, medium], [assets/img/interchange/large.jpg, large]">
 
 The image set is a comma-separated list of items with this format:
 
@@ -93,11 +85,5 @@ When using Interchange programmatically, you need to pass in your ruleset in the
 
 ```js
 var $photoFrame = $('#some-container');
-var interchange = new Foundation.Interchange($photoFrame, {
-  rules: [
-    "[path/to/default.jpg, small]", 
-    "[path/to/medium.jpg, medium]",
-    "[path/to/large.jpg, large]"
-  ]
- });
+var interchange = new Foundation.Interchange($photoFrame, {rules: "[path/to/default.jpg, small], [path/to/medium.jpg, medium], [path/to/large.jpg, large]"});
 ```

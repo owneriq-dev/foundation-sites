@@ -1,7 +1,6 @@
 ---
 title: Panini
 description: A flat file compiler that powers our prototyping template. Create pages with consistent layouts and reusable partials with ease.
-video: 't_ekdBMj4cc'
 library:
   github: https://github.com/zurb/panini
   docs: https://github.com/zurb/panini
@@ -121,16 +120,6 @@ The `../` is added only on pages in a sub-folder, so the CSS can still be proper
 
 Helpers are special functions that manipulate content on the page. In addition to [Handlebars's built-in helpers](http://handlebarsjs.com/builtin_helpers.html), Panini includes a few custom helpers and you can add your own.
 
-### ifequal
-Displays the HTML inside the helper if the two values are equal. 
-```handlebars
-{{#ifequal foo bar}}
-  <p>foo and bar are equal</p>
-{{else}}
-  <p>foo and bar are not equal}}  
-{{/ifequal}}
-```
-
 ### ifpage
 
 Displays the HTML inside the helper only on specific pages. In the below example, the HTML inside the helper will only show up on the `index.html` page.
@@ -184,7 +173,7 @@ Lorem ipsum [dolor sit amet](http://html5zombo.com), consectetur adipisicing eli
 
 ### Custom Helpers
 
-If you don't see the right helper, you can write your own. Add a javascript file to 'src/helpers', add `helpers: 'src/helpers'` to the Panini process in your gulpfile.babel.js, restart npm, then call it in your templates.
+If you don't see the right helper, you can write your own. Add a javascript file to 'src/helpers', restart npm, then call it in your templates.
 
 ```
 // Example file src/helpers/bold.js
@@ -194,22 +183,6 @@ module.exports = function(options) {
   return bolder;
 }
 ```
-
-```
-// Example  gulpfile.babel.js
-function pages() {
-  return gulp.src('src/pages/**/*.html')
-    .pipe(panini({
-      root: 'src/pages',
-      layouts: 'src/layouts',
-      partials: 'src/partials',
-      helpers: 'src/helpers'
-    }))
-    .pipe(inky())
-    .pipe(gulp.dest('dist'));
-}
-```
-
 Then in your projects call your custom `{{#bold}}` helper
 
 ```
